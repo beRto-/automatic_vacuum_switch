@@ -1,8 +1,8 @@
-# Automatic Vacuum Switch - Software & Hardware
+# Automatic Dust Control Vacuum Switch - Software & Hardware
 
-This software monitors a plugged-in appliance to determine if it is on. Whenever this master device is on, a switch is triggered to turn on a second electric appliance. It's basically a high-current relay setup.
+This software monitors a woodworking power saw to determine if it is on. Whenever the saw is running, a switch is triggered to automatically turn on a connected vacuum to take away saw dust. (While the intended use is a power saw / dust control system, in practice the setup works for any pair of appliances plugged into the switch box.)
 
-The intended use is to automatically turn on a dust collection system whenever a woodworking tool is running.
+It's basically a high-current electrical relay, but with fancy timeouts, overrides, and other special functionality.
 
 ![system layout](images/layout_schematic.jpg)
 
