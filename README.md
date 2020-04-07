@@ -6,23 +6,27 @@ It's basically a high-current electrical relay, but with fancy timeouts, overrid
 
 ![system layout](images/layout_schematic.jpg)
 
-The project was inspired by the "proper" solution shown below:
+The project was inspired by the "proper" solution [iVAC at Lee Valley](https://www.leevalley.com/en-ca/shop/tools/workshop/dust-collection/parts-and-accessories/63013-ivac-automatic-vacuum-switch):
 
 ![iVAC Automatic Vacuum Switch](images/03J6210-ivac-automatic-vacuum-switch-f-111.jpg)
 
-[iVAC at Lee Valley](https://www.leevalley.com/en-ca/shop/tools/workshop/dust-collection/parts-and-accessories/63013-ivac-automatic-vacuum-switch)
-
 # Hardware
 
-The hardware consists of an Arduino (yes, I know it's overkill!), a solid-state relay, and a common electrical switch and outlet. To make it sufficiently robust and dust-protected for the shop, the items are packaged into a metal box (and old computer power supply enclosure).
+The hardware consists of:
+1. an Arduino Uno (yes, I know it's overkill; if I had to do it again, I'd use an ESP8266 or an ATTiny)
+2. a solid-state relay
+3. a common household electrical switch
+4. a common household electrical outlet
+
+To make it robust enough for the shop, everything is packaged into a (grounded!) metal box (an old computer power supply enclosure).
 
 ![ACS712 current sensor](images/ACS712.jpg)
 
 # Software
 
-I know it's overkill - I used an Arduino to control this switch. If I had to do it again, I'd use an ESP8266 or an ATTiny.
+The C++ code for Arduino has the following notable items:
 
-In any event, the C++ code for Arduino has the following notable items:
-
-
+```
+code goes here
+```
 
