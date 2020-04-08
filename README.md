@@ -41,8 +41,8 @@ The ACS712 measures input current, and outputs a signal voltage according to a l
 
 We can use an Arduino to read the ACS712 and determine if the power saw is running. If it is, we turn on the dust collection vacuum. Software for this is covered in a later section.
 
-# System Schematic
-![system schematic](images/system_schematic.jpg)
+# Connection Details
+![connection details](images/connection_details.jpg)
 
 # Software
 
