@@ -16,9 +16,8 @@ The project was inspired by the "proper" solution [iVAC at Lee Valley](https://w
 
 **disclaimer: I coded and built this project a couple of years ago, and haven't looked at it since. This is actually good news, because it means the automatic switch has run reliably for years. But it means that I am now essentially reverse-engineering my own work so that I can post it here for others. I think I got the details right, but don't be too surprised if not - please let me know if something looks off**
 
-```diff
-- warning! Electrical mains power is dangerous! So are power saws! I have not mentioned anything about safety aspects here - please be sure to exercise appropriate caution if attempting this project.**
-```
+**WARNING! Electrical mains power is dangerous! So are power saws! I have not mentioned anything about safety aspects here - please be sure to exercise appropriate caution if attempting this project.**
+
 
 # Hardware
 
