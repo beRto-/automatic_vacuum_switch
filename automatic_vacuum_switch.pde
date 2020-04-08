@@ -1,7 +1,7 @@
 /*
   Roberto Venditti 06-June-2016 - original version
   Roberto Venditti 26-March-2017 - add functionality to lockout the primary mains (where mitre saw is connected).
-  
+
 */
 
 // operating constants
@@ -19,7 +19,7 @@ const double MILLIS_PER_SECOND = 1000;
 
 // Arduino setup constants
 const int PIN_SSR = 12;         // DIGITAL
-const int PIN_ANALOG = A0;      // ANALOG  
+const int PIN_ANALOG = A0;      // ANALOG
 const int PIN_MANUAL = 4;       // DIGITAL
 const int PIN_LOCK_SWITCH = 7;
 const int PIN_POWERSAW = 8;
@@ -63,17 +63,17 @@ class SwitchMonitor
   int logic_input_state_off;
   int logic_output_state_on;
   int logic_output_state_off;
-  
+
   public:
   int desired_state_of_output;
   int last_input_switch_state;
   long seconds_remaining_to_lockout;
   long timeout_millis;
 
-  // Constructor 
+  // Constructor
   public:
   void assign_variables(int init_val, long on=0, long off=0, int logic_input_on=HIGH, int logic_input_off=LOW, int logic_output_on=HIGH, int logic_output_off=LOW, long lockout_minutes=-1);
-  
+
   private:
   void Check_For_State_Change( unsigned long current_millis, int active_state_input_switch )
   {
@@ -96,7 +96,7 @@ class SwitchMonitor
             Serial.println(seconds_remaining_to_lockout);
           }
         }
-            
+
 //*****DEBUG OVERRIDE*****
       if (TEST_CASE=="test:10s_to_lockout"){
         minutes_allowed_before_lockout = 1;
@@ -122,7 +122,7 @@ class SwitchMonitor
       }else{
         if (DEBUG_MODE){
           Serial.println('WTF! Is this even possible?');
-        }  
+        }
       }
     }
   }
@@ -130,7 +130,7 @@ class SwitchMonitor
   public:
   void Update(unsigned long current_millis, int active_switch_state)
   {
-    Check_For_State_Change( current_millis, active_switch_state );    
+    Check_For_State_Change( current_millis, active_switch_state );
     last_input_switch_state = active_switch_state;
     if (current_millis - last_state_change_request_millis >= active_delay_interval_millis) {
       if (desired_state_of_output != set_output_state_after_delay){
@@ -140,7 +140,7 @@ class SwitchMonitor
     timeout_millis -= (current_millis - previous_millis);
     timeout_millis = max(0, timeout_millis);  // floor to zero; avoid overflow problems, etc
     seconds_remaining_to_lockout = timeout_millis/MILLIS_PER_SECOND;
-    
+
     if (DEBUG_MODE){
       if(minutes_allowed_before_lockout > 0){
         Serial.print("lockout timer status: ");
@@ -153,7 +153,7 @@ class SwitchMonitor
         Serial.println(seconds_remaining_to_lockout);
       }
     }
-    
+
     if (timeout_millis <= 0 && minutes_allowed_before_lockout >= 0){
       // lockout - turn it off now, regardless of other conditions
       // switch has to go from OFF to ON to reset timer (i.e. switch cycle)
@@ -161,9 +161,9 @@ class SwitchMonitor
         Serial.println("triggering lockout");
       }
       desired_state_of_output = logic_output_state_off;
-    } 
+    }
     previous_millis = current_millis;
-  }  
+  }
 };
 
 void SwitchMonitor::assign_variables(int init_val, long on, long off, int logic_input_on, int logic_input_off, int logic_output_on, int logic_output_off, long lockout_minutes)
@@ -211,9 +211,9 @@ double take_an_amp_reading(int pin_id)
   double max_voltage_reading = -99;
   double min_voltage_reading =  99;
   double amp_reading = 0;
-  
+
   unsigned long start_time = millis();
-  
+
   while( (millis()-start_time) < (SAMPLING_TIME_SECONDS*MILLIS_PER_SECOND) ){
     analog_voltage = analogRead(pin_id) * (5.0 / 1023.0);
     if (analog_voltage > max_voltage_reading) {
@@ -249,12 +249,12 @@ int get_digital_read_from_current_sensor(int pin_id)
   }else if(sensor_amps <= AMP_THRESHOLD_STOP_SSR){
     digital_output = LOW;
   }
-  
+
 //*****DEBUG OVERRIDE*****
   if (TEST_CASE=="test:saw_always_on"){
     digital_output = HIGH;
   }
-  
+
   return digital_output;
 }
 
@@ -265,19 +265,19 @@ void setup()
     Serial.begin(9600);
     Serial.println("starting program");
   }
-  
+
   // power pins
   pinMode(PIN_LOCK_SWITCH_GROUND, OUTPUT);
-  digitalWrite(PIN_LOCK_SWITCH_GROUND, LOW); 
+  digitalWrite(PIN_LOCK_SWITCH_GROUND, LOW);
   pinMode(PIN_POWERSAW_GROUND, OUTPUT);
-  digitalWrite(PIN_POWERSAW_GROUND, LOW); 
+  digitalWrite(PIN_POWERSAW_GROUND, LOW);
   pinMode(PIN_POWERSAW_VCC, OUTPUT);
   digitalWrite(PIN_POWERSAW_VCC, HIGH);
-  
+
   // initialize the pin to control the SSR (starts OFF)
   pinMode(PIN_SSR, OUTPUT);
-  digitalWrite(PIN_SSR, SSR_OFF); 
-  
+  digitalWrite(PIN_SSR, SSR_OFF);
+
   // initialize the pin to control manual activation of vacuum
   // activate internal pullup (https://www.arduino.cc/en/Tutorial/DigitalPins)
   pinMode(PIN_MANUAL, INPUT);
@@ -285,10 +285,10 @@ void setup()
 
   pinMode(PIN_POWERSAW, OUTPUT);
   digitalWrite(PIN_POWERSAW, SAW_RELAY_OFF);
-  
+
   pinMode(PIN_LOCK_SWITCH, INPUT);
   digitalWrite(PIN_LOCK_SWITCH, HIGH); // enable internal pullup - avoid need for external resistor; but means switch actuation needs to ground pin
-  
+
   // setup switch monitors (must be done after class declaration)
   switch_manual.assign_variables( digitalRead(PIN_MANUAL) );
   switch_current_sensor.assign_variables( get_digital_read_from_current_sensor(PIN_ANALOG), INIT_WINDOW_SECONDS*MILLIS_PER_SECOND, END_WINDOW_SECONDS*MILLIS_PER_SECOND );
@@ -300,15 +300,15 @@ void setup()
 void loop ()
 {
   unsigned long currentMillis = millis();
-  
+
   switch_lockout_mains.Update( currentMillis, digitalRead(PIN_LOCK_SWITCH) );
   if (switch_lockout_mains.desired_state_of_output == SAW_RELAY_ON){
     digitalWrite(PIN_POWERSAW, SAW_RELAY_ON);
   }else{
     if(get_digital_read_from_current_sensor(PIN_ANALOG) != CURRENT_ON){
       // don't kill the power if saw is running (might ruin a workpiece if lockout timer triggers when saw is mid-cut)
-      // this means we cannot use this circuit for any kind of emergyency shutoff!
-      digitalWrite(PIN_POWERSAW, SAW_RELAY_OFF);    
+      // this means we cannot use this circuit for any kind of emergency shutoff!
+      digitalWrite(PIN_POWERSAW, SAW_RELAY_OFF);
     }else{
       if (DEBUG_MODE){
         Serial.println("take no timeout action because saw is reported as running");
@@ -316,14 +316,14 @@ void loop ()
     }
   }
 
-  switch_manual.Update( currentMillis, digitalRead(PIN_MANUAL) );  
+  switch_manual.Update( currentMillis, digitalRead(PIN_MANUAL) );
   switch_current_sensor.Update( currentMillis, get_digital_read_from_current_sensor(PIN_ANALOG) );
-  
+
 //*****DEBUG OVERRIDE*****
   if (TEST_CASE=="test:saw_always_on"){
     switch_current_sensor.desired_state_of_output = SSR_ON;
   }
-  
+
   if (switch_manual.desired_state_of_output == SSR_ON || switch_current_sensor.desired_state_of_output == SSR_ON){
     digitalWrite(PIN_SSR, SSR_ON);
   }else{
