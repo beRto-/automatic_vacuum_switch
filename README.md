@@ -16,13 +16,15 @@ The project was inspired by the "proper" solution [iVAC at Lee Valley](https://w
 
 **disclaimer: I coded and built this project a couple of years ago, and haven't looked at it since. This is actually good news, because it means the automatic switch has run reliably for years. But it means that I am now essentially reverse-engineering my own work so that I can post it here for others. I think I got the details right, but don't be too surprised if not - please let me know if something looks off**
 
-**warning! Electrical mains power is dangerous! So are power saws! I have not mentioned anything about safety aspects here - please be sure to exercise appropriate caution if attempting this project.**
+```diff
+- warning! Electrical mains power is dangerous! So are power saws! I have not mentioned anything about safety aspects here - please be sure to exercise appropriate caution if attempting this project.**
+```
 
 # Hardware
 
 The hardware consists of:
-1. Arduino Uno (yes, I know it's overkill; if I had to do it again, I'd use an ESP8266 or an ATTiny)
-2. Relays (I used 2 solid-state relays)
+1. Arduino Duemilanove (yes, I know it's overkill; if I had to do it again, I'd probably use an ESP8266 or an ATTiny)
+2. Electrical Relays (I used 2 solid-state relays)
 3. Common household electrical switch
 4. Common household electrical outlet
 
@@ -38,10 +40,10 @@ The ACS712 measures input current, and outputs a signal voltage according to a l
 
 ![ACS712 output profile](images/ACS712_output_profile.jpg)
 
-We can use an Arduino to read the ACS712 and determine if the power saw is running. If it is, we turn on the dust collection vacuum. Software for this is covered in the next section.
+We can use an Arduino to read the ACS712 and determine if the power saw is running. If it is, we turn on the dust collection vacuum. Software for this is covered in a later section.
 
 # System Schematic
-(to come)
+![system schematic](images/system_schematic.jpg)
 
 # Software
 
