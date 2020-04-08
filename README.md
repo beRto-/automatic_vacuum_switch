@@ -1,10 +1,14 @@
-# Automatic Dust Control Vacuum Switch - Software & Hardware
+# Automatic Dust Control Vacuum Switch
 
-This software monitors a woodworking power saw to determine if it is on. Whenever the saw is running, a switch is triggered to automatically turn on a connected vacuum to take away saw dust. (While the intended use is a power saw / dust control system, in practice the setup works for any pair of appliances plugged into the switch box.)
+This project implements the hardware and software needed to monitor a woodworking power saw and determine if it is on. Whenever the saw is running, a switch is triggered to automatically turn on a connected vacuum and remove sawdust. To clear the hose, the vacuum is kept running for a set time after the saw is turned off.
 
-It's basically a high-current electrical relay, but with fancy timeouts, overrides, and other special functionality.
+A lockout switch has been integrated so that the saw can be fully disabled without having to unplug it. A software switch locks out the saw after a fixed idle period, even if the lock key is left "on" (I did this because I have kids around and was terrified I'd one day forget to unplug the saw or otherwise lock it out).
 
-![system layout](images/layout_schematic.jpg)
+A separate external switch allows the vacuum to be turned on, even if the saw is off.
+
+While the intended use is a power saw / dust control system, in practice the setup works for any pair of appliances plugged into the switch box. It's basically a high-current electrical relay, but with fancy timeouts, overrides, and other special functionality.
+
+![system layout](images/system_layout.jpg)
 
 The project was inspired by the "proper" solution [iVAC at Lee Valley](https://www.leevalley.com/en-ca/shop/tools/workshop/dust-collection/parts-and-accessories/63013-ivac-automatic-vacuum-switch):
 
